@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTableNotes extends Migration
+class CreatingTableForUploadedFiles extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class AddTableNotes extends Migration
      */
     public function up()
     {
-        Schema::create('notes',function(Blueprint $table){
-           $table->increments('id');
-           $table->string('title');
-           $table->text('description');
-           $table->timestamps();
+        Schema::create('upload',function(Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('note_id');
+            $table->string('path');
+            $table->timestamps();
         });
+
     }
 
     /**
@@ -28,6 +29,6 @@ class AddTableNotes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('upload');
     }
 }
