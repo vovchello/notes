@@ -28,7 +28,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        dd($this->notesRepository->getAllUsers());
-        return view('home');
+        $notes = $this->notesRepository->getAll();
+        return view('home', [
+            'notes' => $notes
+        ]);
     }
 }

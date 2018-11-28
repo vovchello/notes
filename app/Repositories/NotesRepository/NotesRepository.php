@@ -17,10 +17,7 @@ class NotesRepository extends BaseRepository implements NoteRepositoryInterface
 {
     private $note;
 
-    /**
-     * NotesRepository constructor.
-     * @param $note
-     */
+
     public function __construct(Note $note)
     {
         $this->note = $note;
@@ -34,6 +31,11 @@ class NotesRepository extends BaseRepository implements NoteRepositoryInterface
     public function getAllUsers()
     {
         return $this->note->user();
+    }
+
+    public function getNoteById($id)
+    {
+        return $this->note->where('id',$id)->first();
     }
 
 
