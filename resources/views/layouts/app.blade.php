@@ -49,6 +49,9 @@
                                 @endif
                             </li>
                         @else
+                            <a class="nav-link" href="{{route('note.create')}}" role="button" v-pre>
+                               Create New Note <span class="caret"></span>
+                            </a>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

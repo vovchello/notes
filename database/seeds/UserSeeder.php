@@ -1,13 +1,21 @@
 <?php
+namespace database\seeds;
 
+use DateTime;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
+/**
+ * Class UserSeeder
+ */
 class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
+     * @throws Exception
+     * @throws \Exception
      */
     public function run()
     {

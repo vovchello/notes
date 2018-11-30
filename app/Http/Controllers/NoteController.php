@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notes\Note;
 use App\Repositories\NotesRepository\NotesRepository;
+use App\Validators\NoteValidators\NoteValidator;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
     private $noteRpository;
 
+    private $note;
+
     /**
      * NoteController constructor.
      * @param $noteRpository
      */
-    public function __construct(NotesRepository $noteRpository)
+    public function __construct(NotesRepository $noteRpository, Note $note)
     {
         $this->noteRpository = $noteRpository;
+        $this->note = $note;
     }
 
 
@@ -24,33 +29,26 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $note = $this->noteRpository->getNoteById($request->id);
+        $note = $this->noteRpository->getNoteById($id);
         return view('edit',[
             'note' => $note
             ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $note = $this->noteRpository->getNoteById($request->id);
+        return view('create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(NoteValidator $request)
     {
-        //
+        $notes = $request->validated();
+        $this->noteRpository->createNote($notes);
+        return redirect()->route('home')
+            ->with('message','Note was stored');
     }
 
     /**
@@ -61,7 +59,11 @@ class NoteController extends Controller
      */
     public function show($id)
     {
-        //
+        dd('show');
+        $note = $this->noteRpository->getNoteById($id);
+        return view('edit',[
+            'note' => $note
+        ]);
     }
 
     /**
@@ -72,7 +74,10 @@ class NoteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $note = $this->noteRpository->getNoteById($id);
+        return view('edit',[
+            'note' => $note
+        ]);
     }
 
     /**
@@ -82,9 +87,12 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(NoteValidator $request, $id)
     {
-        //
+        $notes = $request->validated();
+        $this->noteRpository->update($notes,$id);
+        return redirect()->route('home')
+            ->with('message','Note was updated');
     }
 
     /**
@@ -95,6 +103,9 @@ class NoteController extends Controller
      */
     public function destroy($id)
     {
-        //
+//        dd($id);
+        $this->note->where('id',$id)->delete();
+     return redirect()->route('home')
+         ->with('message','Note was deleted');
     }
 }

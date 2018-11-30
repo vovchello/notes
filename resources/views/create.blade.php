@@ -6,21 +6,27 @@
         <h2>Editing Your Note</h2>
         <p class="lead"></p>
     </div>
+
     <div class="row">
+        {{--<div class="col-md-4 order-md-2 mb-4">--}}
+        {{--</div>--}}
         <div class="container">
             <h4 class="mb-3">Billing address</h4>
-            <form class="needs-validation" action="{{route('note.update',$note->id)}}" method="post">
+            <form class="needs-validation" action="{{route('note.store')}}" method="post">
                 {{csrf_field()}}
-                @method('PUT')
+                {{--@method('PUT')--}}
                <div class="mb-3">
                     <label for="email">Title</label>
-                    <input name="title" id="title" class="form-control" value="{{$note->title}}">
+                    <input name="title" id="title" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="address">Description</label>
-                    <textarea type="text" id="description" name="description" class="form-control">{{$note->description}}</textarea>
+                    <textarea type="text" id="description" name="description" class="form-control"></textarea>
                 </div>
+
+
                 <h4 class="mb-3">Delete at</h4>
+
                 <div class="d-block my-3">
                     <div class="custom-control custom-radio">
                         <input id="1day" name="deleteAt" type="radio" class="custom-control-input" checked required>
@@ -36,15 +42,11 @@
                     </div>
                 </div>
                 <hr class="mb-4">
-                <button class="btn btn-primary  btn-block" type="submit">Submit</button>
-            </form>
-            <form action="{{route('note.destroy',$note->id)}}" type="inline" method="post">
-                {{csrf_field()}}
-                <input type="hidden" name="_method" value="delete">
-                <hr class="mb-4">
-                <button onclick="return confirm('Are you sure?')" class="btn btn-danger btn-block">Delete<i class="fa fa-times"></i></button>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
             </form>
         </div>
     </div>
+
+
 </div>
 @endsection
