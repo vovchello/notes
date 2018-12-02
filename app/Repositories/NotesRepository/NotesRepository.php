@@ -14,6 +14,9 @@ use App\Models\Notes\Note;
      */
     class NotesRepository extends BaseRepository implements NoteRepositoryInterface
     {
+
+        private $protected = 1;
+
         /**
          * @var Note
          */
@@ -99,8 +102,14 @@ use App\Models\Notes\Note;
         public function update(array $data, int $id):void
         {
             $note = $this->getModelNoteById($id);
-            $data['userId']=$note->user()->id;
+            $data['userId']=$this->getUserNoteById($id);
             $this->saveNote($note,$data);
+        }
+
+        public function getUserNoteById($noteId)
+        {
+            $note = $this->getModelNoteById($noteId);
+            return $note->user()->first()->id;
         }
 
         /**
@@ -129,7 +138,29 @@ use App\Models\Notes\Note;
             $note->title = $data['title'];
             $note->description = $data['description'];
             $note->user_id = $data['userId'];
+            $note->protected = $this->protected;
+            $this->save($note);
+        }
+
+        /**
+         * @param $data
+         */
+        public function shareProtectedField():void
+        {
+            $this->protected = 0;
+        }
+
+        /**
+         * @param Note $note
+         */
+        private function save(Note $note):void
+        {
             $note->save();
+        }
+
+        public function getNoteProtectionStatus($noteId)
+        {
+            return $this->note->where('id',$noteId)->first()->protected;
         }
 
 

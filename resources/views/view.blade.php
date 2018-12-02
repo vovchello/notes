@@ -8,7 +8,6 @@
                 <div class="box-body">
                     @include('layouts.errors-and-messages')
                 </div>
-                @foreach($notes as $note)
                     <div class="out" style="margin: 10px">
                     <div class="card-header">
                         Title: <h4>{{$note->title}}</h4>
@@ -38,7 +37,6 @@
                         </div>
                     </div>
                     </div>
-                    @endforeach
             </div>
         </div>
     </div>

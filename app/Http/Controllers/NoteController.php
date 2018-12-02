@@ -6,6 +6,7 @@ use App\Models\Notes\Note;
 use App\Repositories\NotesRepository\NotesRepository;
 use App\Validators\NoteValidators\NoteValidator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NoteController extends Controller
 {
@@ -59,11 +60,16 @@ class NoteController extends Controller
      */
     public function show($id)
     {
-        dd('show');
-        $note = $this->noteRpository->getNoteById($id);
-        return view('edit',[
-            'note' => $note
-        ]);
+        $userId = Auth::id();
+        $noteRepository = $this->noteRpository;
+        if($userId === $noteRepository->getUserNoteById($id) or ($noteRepository->getNoteProtectionStatus($id) === 0)){
+            $note = $noteRepository->getNoteById($id);
+            return view('view',[
+                'note' => $note
+            ]);
+        }
+        return redirect()->route('home')
+            ->with('message','You have no permissions');
     }
 
     /**
