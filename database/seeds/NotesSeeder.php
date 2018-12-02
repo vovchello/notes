@@ -20,7 +20,7 @@ class NotesSeeder extends Seeder
                 'description' =>$faker->text,
                 'user_id' => $faker->numberBetween(1,2),
                 'protected' => 1,
-                'lifetime' => $faker->number(1,15,10),
+                'lifetime' => 15,
                 'created_at'    => $date,
                 'updated_at'    => $date
             ]);

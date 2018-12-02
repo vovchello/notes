@@ -11,7 +11,7 @@ class NoteLifeTimeChecker extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'note:lifecheker';
 
     /**
      * The console command description.
