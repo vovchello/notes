@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('note:lifecheker')->everyMinute();
+        $schedule->command('note:lifecheker')->daily();
     }
 
     /**
