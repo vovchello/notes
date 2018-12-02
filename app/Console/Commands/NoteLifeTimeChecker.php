@@ -75,6 +75,7 @@ class NoteLifeTimeChecker extends Command
         foreach($notes as $note) {
                 $this->deleteDataByNoteId($note->id);
         }
+        Log:info(count($notes) . ' notes was deleted');
 
     }
 
