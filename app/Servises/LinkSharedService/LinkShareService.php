@@ -1,19 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: panda
- * Date: 02.12.18
- * Time: 10:00
- */
 
 namespace App\Servises\LinkSharedService;
 
-
 use App\Repositories\NotesRepository\NotesRepository;
 use App\Servises\LinkSharedService\Contacts\LinkSharedInterface;
-use Illuminate\Support\Facades\Auth;
 
-class LinkShareService
+class LinkShareService implements LinkSharedInterface
 {
 
     private $notesRepository;
@@ -27,7 +19,7 @@ class LinkShareService
         $this->notesRepository = $notesRepository;
     }
 
-    public function share($id)
+    public function share(int $id)
     {
         $data =$this->changeDataForSave ($this->notesRepository->getNoteById($id));
         $this->notesRepository->shareProtectedField();

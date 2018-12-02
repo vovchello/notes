@@ -18,7 +18,8 @@ class NoteValidator extends FormRequest
         return[
             'title' => 'required',
             'description' => 'required',
-            'upload' => 'file'
+            'upload' => 'file',
+            'deleteAt' =>'required'
 
         ];
     }

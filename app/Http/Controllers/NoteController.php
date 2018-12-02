@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notes\Note;
+use App\Repositories\NotesRepository\Contracts\NoteRepositoryInterface;
 use App\Repositories\NotesRepository\NotesRepository;
+use App\Repositories\UploadRepository\Contracts\UploadRepositoryInterface;
 use App\Repositories\UploadRepository\UploadRepository;
+use App\Servises\FileServise\Contact\FileServiceInterface;
 use App\Servises\FileServise\FileService;
 use App\Validators\NoteValidators\NoteValidator;
 use Illuminate\Http\Request;
@@ -33,11 +36,13 @@ class NoteController extends Controller
 
     /**
      * NoteController constructor.
-     * @param NotesRepository $noteRpository
-     * @param UploadRepository $uploadRepository
-     * @param FileService $fileService
+     * @param NoteRepositoryInterface $noteRpository
+     * @param UploadRepositoryInterface $uploadRepository
+     * @param FileServiceInterface $fileService
      */
-    public function __construct(NotesRepository $noteRpository, UploadRepository $uploadRepository, FileService $fileService)
+    public function __construct(NoteRepositoryInterface $noteRpository,
+                                UploadRepositoryInterface $uploadRepository,
+                                FileServiceInterface $fileService)
     {
         $this->noteRpository = $noteRpository;
         $this->middleware('auth');
@@ -116,9 +121,16 @@ class NoteController extends Controller
         $this->noteRpository->update($notes,$noteId);
         if(isset($notes['upload'])){
             $newFilePath = $this->fileService->save($notes['upload']);
-            $savedInDbPath = $this->uploadRepository->findPathByNoteId($noteId);
-            $this->uploadRepository->update($noteId,$newFilePath);
-            $this->fileService->deleteFile($savedInDbPath);
+            if(! is_null($this->uploadRepository->getUploadByNoteId($noteId)))
+            {
+                $savedInDbPath = $this->uploadRepository->findPathByNoteId($noteId);
+                $this->fileService->deleteFile($savedInDbPath);
+                $this->uploadRepository->update($noteId,$newFilePath);
+                return redirect()->route('home')
+                    ->with('message','Note was updated');
+            }
+            $this->uploadRepository->createUpload($noteId,$newFilePath);
+
         }
         return redirect()->route('home')
             ->with('message','Note was updated');

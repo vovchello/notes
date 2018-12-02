@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Servises\LinkSharedService\LinkShareService;
+use App\Servises\LinkSharedService\Contacts\LinkSharedInterface;
 
 class LinkShareController
 {
@@ -10,9 +10,9 @@ class LinkShareController
 
     /**
      * LinkShareController constructor.
-     * @param $sharer
+     * @param LinkSharedInterface $shareService
      */
-    public function __construct(LinkShareService $shareService)
+    public function __construct(LinkSharedInterface $shareService)
     {
         $this->shareService = $shareService;
     }

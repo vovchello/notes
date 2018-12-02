@@ -108,7 +108,9 @@ use Illuminate\Support\Facades\Auth;
         public function update(array $data, int $id):void
         {
             $note = $this->getModelNoteById($id);
-            $data['userId']=$this->getUserNoteById($id);
+            $data['userId'] = $this->getUserNoteById($id);
+            $data['deleteAt'] = $note->lifetime;
+//            $data['updat']
             $this->saveNote($note,$data);
         }
 
@@ -148,7 +150,7 @@ use Illuminate\Support\Facades\Auth;
             $note->title = $data['title'];
             $note->description = $data['description'];
             $note->user_id = $data['userId'];
-//            $note->lifetime = $data['lifetime'];
+            $note->lifetime = Carbon::now()->addDays((int)$data['deleteAt']);
             $note->protected = $this->protected;
             $this->save($note);
         }

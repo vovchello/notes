@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\NotesRepository\Contracts\NoteRepositoryInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
