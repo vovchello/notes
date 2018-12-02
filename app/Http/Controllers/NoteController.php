@@ -21,6 +21,7 @@ class NoteController extends Controller
     {
         $this->noteRpository = $noteRpository;
         $this->note = $note;
+        $this->middleware('auth');
     }
 
 
@@ -39,7 +40,6 @@ class NoteController extends Controller
 
     public function create(Request $request)
     {
-        $note = $this->noteRpository->getNoteById($request->id);
         return view('create');
     }
 
@@ -72,7 +72,7 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $note = $this->noteRpository->getNoteById($id);
         return view('edit',[
@@ -101,11 +101,12 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-//        dd($id);
-        $this->note->where('id',$id)->delete();
+     $this->noteRpository->deleteNote($id);
      return redirect()->route('home')
          ->with('message','Note was deleted');
     }
+
+
 }

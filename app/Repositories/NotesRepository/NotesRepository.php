@@ -48,7 +48,7 @@ use App\Models\Notes\Note;
          * @param $id
          * @return mixed
          */
-        public function getNoteById($id)
+        public function getNoteById(int $id)
         {
             return $this->note->where('id',$id)->first();
         }
@@ -57,15 +57,35 @@ use App\Models\Notes\Note;
          * @param $id
          * @return mixed
          */
-        public function findNotesByUserId($id)
+        public function getNotesByUserId(int $id)
         {
-            return $this->note->where('user_id',$id)->get();
+            return $this->findNotesByUserId($id)->get();
         }
+
+        /**
+         * @return Note
+         */
+        public function findNotesByUserId(int $id)
+        {
+            return $this->note->where('user_id',$id);
+        }
+
+        /**
+         * @param string $id
+         * @param string $param
+         * @param $data
+         * @return mixed
+         */
+        public function where(string $id, string $param, $data)
+        {
+            return $this->note->where($id,$param,$data);
+        }
+
 
         /**
          * @param $data
          */
-        public function createNote($data)
+        public function createNote(array $data)
         {
             $data['userId'] = Auth::id();
             $this->saveNote($this->note,$data);
@@ -76,23 +96,26 @@ use App\Models\Notes\Note;
          * @param $data
          * @param $id
          */
-        public function update(array $data, $id):void
+        public function update(array $data, int $id):void
         {
             $note = $this->getModelNoteById($id);
             $data['userId']=$note->user()->id;
             $this->saveNote($note,$data);
         }
 
-        public function delete($id)
+        /**
+         * @param int $id
+         */
+        public function deleteNote(int $id):void
         {
-
+            $this->note->where('id',$id)->delete();
         }
 
         /**
          * @param $id
          * @return mixed
          */
-        private function getModelNoteById($id)
+        private function getModelNoteById(int $id)
         {
             return $this->note->find($id);
         }
@@ -108,5 +131,7 @@ use App\Models\Notes\Note;
             $note->user_id = $data['userId'];
             $note->save();
         }
+
+
 
     }

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Servises\SearchService\Contacts\NotesSearcherInterface;
+use App\Servises\SearchService\NotesSearcherByTitle;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(NotesSearcherInterface::class, NotesSearcherByTitle::class);
     }
 }

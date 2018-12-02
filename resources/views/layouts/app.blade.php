@@ -24,7 +24,7 @@
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name', 'Notes') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -49,6 +49,11 @@
                                 @endif
                             </li>
                         @else
+                            <form class="custom-control-inline" action="{{route('search')}}" method ='post'>
+                                {{csrf_field()}}
+                                <input name="search" id="search" class="form-control" placeholder="Search">
+                                <button  class="btn btn " type="submit">Search</button>
+                            </form>
                             <a class="nav-link" href="{{route('note.create')}}" role="button" v-pre>
                                Create New Note <span class="caret"></span>
                             </a>
@@ -69,6 +74,7 @@
                                     </form>
                                 </div>
                             </li>
+
                         @endguest
                     </ul>
                 </div>

@@ -13,8 +13,8 @@ class NotesSeeder extends Seeder
     public function run()
     {
         $date = new DateTime('now');
-        $faker = Faker::create('App\Models\Notes');
-        for ($i = 1; $i <= 10; $i ++){
+        $faker = Faker::create('App\Models\Notes','ru_RU');
+        for ($i = 1; $i <= 500; $i ++){
             DB::table('notes')->insert([
                 'title' => $faker->sentence,
                 'description' =>$faker->text,

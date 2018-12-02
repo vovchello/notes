@@ -31,7 +31,7 @@ class HomeController extends Controller
     public function index()
     {
         $this->authUserId = Auth::id();
-        $notes = $this->notesRepository->findNotesByUserId($this->authUserId);
+        $notes = $this->notesRepository->getNotesByUserId($this->authUserId);
         return view('home', [
             'notes' => $notes
         ]);
