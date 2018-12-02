@@ -4,50 +4,67 @@ namespace App\Http\Controllers;
 
 use App\Models\Notes\Note;
 use App\Repositories\NotesRepository\NotesRepository;
+use App\Repositories\UploadRepository\UploadRepository;
+use App\Servises\FileServise\FileService;
 use App\Validators\NoteValidators\NoteValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class NoteController
+ * @package App\Http\Controllers
+ */
 class NoteController extends Controller
 {
+    /**
+     * @var NotesRepository
+     */
     private $noteRpository;
 
-    private $note;
+    /**
+     * @var UploadRepository
+     */
+    private $uploadRepository;
+
+    /**
+     * @var FileService
+     */
+    private $fileService;
 
     /**
      * NoteController constructor.
-     * @param $noteRpository
+     * @param NotesRepository $noteRpository
+     * @param UploadRepository $uploadRepository
+     * @param FileService $fileService
      */
-    public function __construct(NotesRepository $noteRpository, Note $note)
+    public function __construct(NotesRepository $noteRpository, UploadRepository $uploadRepository, FileService $fileService)
     {
         $this->noteRpository = $noteRpository;
-        $this->note = $note;
         $this->middleware('auth');
+        $this->uploadRepository = $uploadRepository;
+        $this->fileService = $fileService;
     }
-
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
-    {
-        $note = $this->noteRpository->getNoteById($id);
-        return view('edit',[
-            'note' => $note
-            ]);
-    }
-
-    public function create(Request $request)
+    public function create()
     {
         return view('create');
     }
 
+    /**
+     * @param NoteValidator $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(NoteValidator $request)
     {
         $notes = $request->validated();
-        $this->noteRpository->createNote($notes);
+        $noteId = $this->noteRpository->createNote($notes);
+        if(isset($notes['upload'])){
+            $path = $this->fileService->save($notes['upload']);
+            $this->uploadRepository->createUpload($noteId,$path);
+        }
         return redirect()->route('home')
             ->with('message','Note was stored');
     }
@@ -89,14 +106,20 @@ class NoteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param NoteValidator $request
+     * @param  int $noteId
      * @return \Illuminate\Http\Response
      */
-    public function update(NoteValidator $request, $id)
+    public function update(NoteValidator $request, $noteId)
     {
         $notes = $request->validated();
-        $this->noteRpository->update($notes,$id);
+        $this->noteRpository->update($notes,$noteId);
+        if(isset($notes['upload'])){
+            $newFilePath = $this->fileService->save($notes['upload']);
+            $savedInDbPath = $this->uploadRepository->findPathByNoteId($noteId);
+            $this->uploadRepository->update($noteId,$newFilePath);
+            $this->fileService->deleteFile($savedInDbPath);
+        }
         return redirect()->route('home')
             ->with('message','Note was updated');
     }
@@ -104,14 +127,16 @@ class NoteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $noteId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(int $noteId)
     {
-     $this->noteRpository->deleteNote($id);
-     return redirect()->route('home')
-         ->with('message','Note was deleted');
+        $this->fileService->deleteFile($this->uploadRepository->findPathByNoteId($noteId));
+        $this->uploadRepository->deleteUpload($noteId);
+        $this->noteRpository->deleteNote($noteId);
+        return redirect()->route('home')
+             ->with('message','Note was deleted');
     }
 
 

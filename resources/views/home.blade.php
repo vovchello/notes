@@ -15,6 +15,11 @@
                     </div>
                     <div class="card-body">
                         {{$note->description}}
+                        @if($note->upload()->first())
+                            <div class="img-fluid">
+                                <img src="{{asset($note->upload()->first()->path)}}" width="100%" height="100%">
+                            </div>
+                        @endif
                     </div>
                     <div class="card-header">
                         <div class="btn-group">

@@ -11,8 +11,8 @@
         {{--<div class="col-md-4 order-md-2 mb-4">--}}
         {{--</div>--}}
         <div class="container">
-            <h4 class="mb-3">Billing address</h4>
-            <form class="needs-validation" action="{{route('note.store')}}" method="post">
+            <h4 class="mb-3">Note</h4>
+            <form class="needs-validation" action="{{route('note.store')}}" method="post" enctype="multipart/form-data">
                 {{csrf_field()}}
                 {{--@method('PUT')--}}
                <div class="mb-3">
@@ -23,8 +23,6 @@
                     <label for="address">Description</label>
                     <textarea type="text" id="description" name="description" class="form-control"></textarea>
                 </div>
-
-
                 <h4 class="mb-3">Delete at</h4>
 
                 <div class="d-block my-3">
@@ -41,6 +39,11 @@
                         <label class="custom-control-label" for="month">Month</label>
                     </div>
                 </div>
+                <h4 class="mb-3">Add file</h4>
+                <div class="fileform">
+                    <input id="upload" type="file" name="upload"  />
+                </div>
+
                 <hr class="mb-4">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
             </form>

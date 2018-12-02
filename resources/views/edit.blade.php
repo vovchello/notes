@@ -9,7 +9,7 @@
     <div class="row">
         <div class="container">
             <h4 class="mb-3">Billing address</h4>
-            <form class="needs-validation" action="{{route('note.update',$note->id)}}" method="post">
+            <form class="needs-validation" action="{{route('note.update',$note->id)}}" method="post" enctype="multipart/form-data">
                 {{csrf_field()}}
                 @method('PUT')
                <div class="mb-3">
@@ -34,6 +34,10 @@
                         <input id="month" name="deleteAt" type="radio" class="custom-control-input" required>
                         <label class="custom-control-label" for="month">Month</label>
                     </div>
+                </div>
+                <h4 class="mb-3">Add file</h4>
+                <div class="fileform">
+                    <input id="upload" type="file" name="upload"  />
                 </div>
                 <hr class="mb-4">
                 <button class="btn btn-primary  btn-block" type="submit">Submit</button>

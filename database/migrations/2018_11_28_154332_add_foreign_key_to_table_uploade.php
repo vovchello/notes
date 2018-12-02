@@ -13,7 +13,7 @@ class AddForeignKeyToTableUploade extends Migration
      */
     public function up()
     {
-        Schema::table('upload',function (Blueprint $table){
+        Schema::table('uploads',function (Blueprint $table){
             $table->foreign('note_id')->references('id')->on('notes');
         });
     }
@@ -25,8 +25,8 @@ class AddForeignKeyToTableUploade extends Migration
      */
     public function down()
     {
-        Schema::table('upload', function (Blueprint $table) {
-            $table->dropForeign('upload_note_id_foreign');
+        Schema::table('uploads', function (Blueprint $table) {
+            $table->dropForeign('uploads_note_id_foreign');
         });
     }
 }

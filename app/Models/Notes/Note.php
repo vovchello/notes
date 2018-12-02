@@ -9,6 +9,7 @@
 namespace App\Models\Notes;
 
 
+use App\Models\Upload\Upload;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,5 +20,10 @@ class Note extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function upload()
+    {
+        return $this->hasOne(Upload::class);
     }
 }

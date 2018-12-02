@@ -13,7 +13,7 @@ class CreatingTableForUploadedFiles extends Migration
      */
     public function up()
     {
-        Schema::create('upload',function(Blueprint $table) {
+        Schema::create('uploads',function(Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('note_id');
             $table->string('path');
@@ -29,6 +29,6 @@ class CreatingTableForUploadedFiles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('upload');
+        Schema::dropIfExists('uploads');
     }
 }

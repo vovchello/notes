@@ -92,6 +92,7 @@ use App\Models\Notes\Note;
         {
             $data['userId'] = Auth::id();
             $this->saveNote($this->note,$data);
+            return $this->note->id;
 
         }
 
