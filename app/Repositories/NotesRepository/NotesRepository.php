@@ -148,6 +148,7 @@ use Illuminate\Support\Facades\Auth;
             $note->title = $data['title'];
             $note->description = $data['description'];
             $note->user_id = $data['userId'];
+//            $note->lifetime = $data['lifetime'];
             $note->protected = $this->protected;
             $this->save($note);
         }
