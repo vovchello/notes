@@ -132,7 +132,9 @@ class NoteController extends Controller
      */
     public function destroy(int $noteId)
     {
-        $this->fileService->deleteFile($this->uploadRepository->findPathByNoteId($noteId));
+        if($this->uploadRepository->getUploadByNoteId($noteId)){
+            $this->fileService->deleteFile($this->uploadRepository->findPathByNoteId($noteId));
+        }
         $this->uploadRepository->deleteUpload($noteId);
         $this->noteRpository->deleteNote($noteId);
         return redirect()->route('home')

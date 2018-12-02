@@ -1,15 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: panda
- * Date: 02.12.18
- * Time: 9:12
- */
 
 namespace App\Servises\SearchService\Contacts;
 
 
+/**
+ * Interface NotesSearcherInterface
+ * @package App\Servises\SearchService\Contacts
+ */
 interface NotesSearcherInterface
 {
+    /**
+     * @param $data
+     * @return mixed
+     */
     public function search($data);
 }

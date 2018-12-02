@@ -20,6 +20,7 @@ class NotesSearcherByTitle implements NotesSearcherInterface
 
     /**
      * NotesSearcherByTitle constructor.
+     * @param NotesRepository $noteRepository
      */
     public function __construct(NotesRepository $noteRepository)
     {

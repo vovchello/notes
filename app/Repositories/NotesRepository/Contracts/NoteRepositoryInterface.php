@@ -15,6 +15,11 @@ namespace App\Repositories\NotesRepository\Contracts;
  */
 interface NoteRepositoryInterface
 {
+
+    /**
+     * @return mixed
+     */
+    public function getAll();
     /**
      * @return mixed
      */
@@ -43,5 +48,45 @@ interface NoteRepositoryInterface
      * @return mixed
      */
     public function deleteNote(int $id):void;
+
+    /**
+     *
+     */
+    public function shareProtectedField():void;
+
+    /**
+     * @param $noteId
+     * @return mixed
+     */
+    public function getNoteProtectionStatus($noteId);
+
+    /**
+     * @param $noteId
+     * @return mixed
+     */
+    public function getUserNoteById($noteId);
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function getNoteById(int $id);
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function findNotesByUserId(int $id);
+
+    /**
+     * @param string $id
+     * @param string $param
+     * @param $data
+     * @return mixed
+     */
+    public function where(string $id, string $param, $data);
+
+    public function getOldData();
+
 
 }

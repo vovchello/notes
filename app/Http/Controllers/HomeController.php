@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\NotesRepository\NotesRepository;
+use App\Repositories\NotesRepository\Contracts\NoteRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,9 +15,10 @@ class HomeController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param NoteRepositoryInterface $notesRepository
+     *
      */
-    public function __construct(NotesRepository $notesRepository, Request $request)
+    public function __construct(NoteRepositoryInterface $notesRepository)
     {
         $this->middleware('auth');
         $this->notesRepository = $notesRepository;

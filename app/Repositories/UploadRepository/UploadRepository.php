@@ -10,12 +10,13 @@ namespace App\Repositories\UploadRepository;
 
 
 use App\Models\Upload\Upload;
+use App\Repositories\UploadRepository\Contracts\UploadRepositoryInterface;
 
 /**
  * Class UploadRepository
  * @package App\Repositories\UploadRepository
  */
-class UploadRepository
+class UploadRepository implements UploadRepositoryInterface
 {
     /**
      * @var Upload
@@ -36,7 +37,7 @@ class UploadRepository
      * @param $noteId
      * @param $path
      */
-    public function createUpload($noteId, $path)
+    public function createUpload($noteId, $path):void
     {
         $this->saveUpload($noteId, $path);
     }
@@ -63,7 +64,7 @@ class UploadRepository
     /**
      * @param $noteId
      */
-    public function deleteUpload($noteId)
+    public function deleteUpload($noteId):void
     {
         $this->upload->where('note_id',$noteId)->delete();
     }
@@ -81,7 +82,7 @@ class UploadRepository
      * @param int $noteId
      * @param string $filePath
      */
-    public function update(int $noteId, string $filePath)
+    public function update(int $noteId, string $filePath):void
     {
         $upload = $this->getUploadByNoteId($noteId);
         $upload->path = $filePath;
@@ -92,8 +93,10 @@ class UploadRepository
      * @param $noteId
      * @return mixed
      */
-    private function getUploadByNoteId($noteId)
+    public function getUploadByNoteId(int $noteId)
     {
         return $this->upload->where('note_id',$noteId)->first();
     }
+
+
 }

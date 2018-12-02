@@ -9,6 +9,7 @@
 namespace App\Servises\FileServise;
 
 
+use App\Servises\FileServise\Contact\FileServiceInterface;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 
@@ -16,7 +17,7 @@ use Illuminate\Http\UploadedFile;
  * Class FileService
  * @package App\Servises\FileServise
  */
-class FileService
+class FileService implements FileServiceInterface
 {
     /**
      * @param UploadedFile $file

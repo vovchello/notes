@@ -6,7 +6,8 @@ namespace App\Repositories\NotesRepository;
 use App\Models\Notes\Note;
     use App\Repositories\BaseRepository;
     use App\Repositories\NotesRepository\Contracts\NoteRepositoryInterface;
-    use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
     /**
      * Class NotesRepository
@@ -15,6 +16,9 @@ use App\Models\Notes\Note;
     class NotesRepository extends BaseRepository implements NoteRepositoryInterface
     {
 
+        /**
+         * @var int
+         */
         private $protected = 1;
 
         /**
@@ -87,6 +91,7 @@ use App\Models\Notes\Note;
 
         /**
          * @param $data
+         * @return mixed
          */
         public function createNote(array $data)
         {
@@ -107,6 +112,10 @@ use App\Models\Notes\Note;
             $this->saveNote($note,$data);
         }
 
+        /**
+         * @param $noteId
+         * @return mixed
+         */
         public function getUserNoteById($noteId)
         {
             $note = $this->getModelNoteById($noteId);
@@ -159,11 +168,18 @@ use App\Models\Notes\Note;
             $note->save();
         }
 
+        /**
+         * @param $noteId
+         * @return mixed
+         */
         public function getNoteProtectionStatus($noteId)
         {
             return $this->note->where('id',$noteId)->first()->protected;
         }
 
-
+        public function getOldData()
+        {
+            return $this->note->where('lifetime', '<', Carbon::now())->get();
+        }
 
     }
